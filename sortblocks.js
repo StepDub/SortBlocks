@@ -68,17 +68,6 @@ RNG.prototype.choice = function(array) {
   return array[this.nextRange(0, array.length)];
 }
 
-function rounded_rect(ctx,x0,y0,x1,y1,r){
-	ctx.arc(x0+r,y0+r,r,Math.PI,1.5*Math.PI);
-	ctx.lineTo(x1-r,y0);
-	ctx.arc(x1-r,y0+r,r,1.5*Math.PI,0);
-	ctx.lineTo(x1,y1-r);
-	ctx.arc(x1-r,y1-r,r,0,0.5*Math.PI);
-	ctx.lineTo(x0+r,y1);
-	ctx.arc(x0+r,y1-r,r,0.5*Math.PI,Math.PI);
-	ctx.lineTo(x0,y0+r);
-}
-
 //====================
 function Game(preset,size,colors,white_ratio,seed){
 	this.preset=preset;
@@ -93,6 +82,7 @@ function Game(preset,size,colors,white_ratio,seed){
 	this.click_x=0;
 	this.click_y=0;
 	this.seed=seed;
+	this.rng=0;
 	this.canv = document.getElementById("canv");
 	this.ctx = this.canv.getContext("2d");
 	this.canv_offset=30;
@@ -124,11 +114,7 @@ function Game(preset,size,colors,white_ratio,seed){
  
 	this.canv.addEventListener('touchmove', function(e){
 		function minps(x1,x2){//min preserve x1's sign
-			if (x1<0){
-				return Math.max(x1,-x2);
-			}else{
-				return Math.min(x1,x2);
-			}
+			return (x1<0)? Math.max(x1,-x2): Math.min(x1,x2);
 		}
 		//e.preventDefault()
 		if (game.draging){
@@ -186,11 +172,7 @@ function Game(preset,size,colors,white_ratio,seed){
 	
 	this.canv.onmousemove = function(event){
 		function minps(x1,x2){//min preserve x1's sign
-			if (x1<0){
-				return Math.max(x1,-x2);
-			}else{
-				return Math.min(x1,x2);
-			}
+			return (x1<0)? Math.max(x1,-x2): Math.min(x1,x2);
 		}
 
 		if (game.draging){
@@ -239,26 +221,26 @@ Game.prototype.init_canvas=function(){
 	this.ctx.beginPath();
 	this.ctx.strokeStyle="#e4e4e4";
 	this.ctx.lineWidth=15;
-	rounded_rect(this.ctx,15,15,this.canv.width-15,this.canv.height-15,25);
+	this.rounded_rect(this.ctx,15,15,this.canv.width-15,this.canv.height-15,25);
 	this.ctx.stroke();
 	this.ctx.translate(this.canv_offset,this.canv_offset);
 }
 
 Game.prototype.randomize=function(rseed){
 	//all squares random colors
-	rng=new RNG(rseed);
+	this.rng=new RNG(rseed);
 	for(var ix=0; ix<this.sizex; ix++){
 		this.g[ix]=[];
 		for(var iy=0; iy<this.sizey; iy++){
-			this.g[ix][iy]=Math.floor(rng.nextFloat()*this.colors)+1;
+			this.g[ix][iy]=Math.floor(this.rng.nextFloat()*this.colors)+1;
 		}
 	}
 	//make some white
 	var whitesquares=this.sizex * this.sizey * this.white_ratio;
 	whitesquares=Math.round(whitesquares);
 	while (whitesquares>0){
-		var rx=Math.floor(rng.nextFloat()*this.sizex);
-		var ry=Math.floor(rng.nextFloat()*this.sizey);
+		var rx=Math.floor(this.rng.nextFloat()*this.sizex);
+		var ry=Math.floor(this.rng.nextFloat()*this.sizey);
 		if (this.g[rx][ry]!=0){
 			this.g[rx][ry]=0;
 			whitesquares--;
@@ -452,11 +434,11 @@ Game.prototype.check_win=function(col,block_size){
 		}
 	}
 	if (won){
-		centre_x=this.sizex*this.box_size/2;
-		centre_y=this.sizey*this.box_size/2;
+		var centre_x=this.sizex*this.box_size/2;
+		var centre_y=this.sizey*this.box_size/2;
 		this.ctx.beginPath();
 		this.ctx.fillStyle="rgba(0,0,0,0.4)";
-		rounded_rect(this.ctx,centre_x-100,centre_y-100,centre_x+100,centre_y+100,40);
+		this.rounded_rect(this.ctx,centre_x-100,centre_y-100,centre_x+100,centre_y+100,40);
 		//this.ctx.rect(x0,y0,this.box_size,this.box_size);
 		this.ctx.fill();
 		//
@@ -491,6 +473,18 @@ Game.prototype.add_box=function(found,gridfound,col,x,y){
 		this.add_box(found,gridfound,col,x,y+1);
 	}
 }
+
+Game.prototype.rounded_rect=function(ctx,x0,y0,x1,y1,r){
+	ctx.arc(x0+r,y0+r,r,Math.PI,1.5*Math.PI);
+	ctx.lineTo(x1-r,y0);
+	ctx.arc(x1-r,y0+r,r,1.5*Math.PI,0);
+	ctx.lineTo(x1,y1-r);
+	ctx.arc(x1-r,y1-r,r,0,0.5*Math.PI);
+	ctx.lineTo(x0+r,y1);
+	ctx.arc(x0+r,y1-r,r,0.5*Math.PI,Math.PI);
+	ctx.lineTo(x0,y0+r);
+}
+
 //----------
 function getPosition(element) {
     var xPosition = 0;

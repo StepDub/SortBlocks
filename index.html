@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- License: CC0 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -8,53 +8,59 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" type="image/png" href="favicon.png" />
 	<title>SortBlocks</title>
-	<!--<script type="text/javascript" src="sbp.js"></script>-->
-	<script type="text/javascript" src="sortblocks.js"></script>
+	<script type="text/javascript" src="sortblocks5.js"></script>
 	<style type="text/css">
-		#sb_title {
-			//font-size: 100%;
-		}
-		#menu {
-			text-align: center;
-			//font-size: 200%;
+		#main_page {
 			color: #404040;
 		}
-		#canv {
-			//border: 1px solid #cccccc;
-			//padding: 0px;
-		}
-		#game {
-			text-align: center;
+		#game_page {
 			display: none;
 		}
 		select, input {
 			font-size: 100%;
 		}
 		body {
+			text-align: center;
 			font-family: Helvetica, sans-serif;
 			font-size: 170%;
 			margin: 0px;
 		}
-		h1 {
-			color: #686868;
+		.spacing {
+			margin-top: 10px;
+			margin-bottom: 10px;
 		}
-		.ma {
+		.top_spacing{
+			margin-top: 15px;
+		}
+		.info_line {
+			color: #888888;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 55%;
+		}
+		.main_menu {
 			color: #888888;
 			text-decoration: none;
 			font-weight: bold;
 			font-size: 115%;
 		}
-		#more_levels_div, #custom_game_div {
+		#toggle_text {
+			color: #888888;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 60%;
+		}
+		#custom_game_div {
 			display: none;
 		}
 		.diff {
 			color: #888888;
 			font-weight: bold;
-			font-size: 90%;
+			font-size: 70%;
 		}
 		#sb_title {
 			font-weight: bold;
-			font-size: 200%;
+			font-size: 240%;
 		}
 		.epbtn, .mpbtn, .hpbtn, .vpbtn {
 			padding: 2px 25px 2px !important;
@@ -63,18 +69,9 @@
 			border: 0px;
 			-moz-border-radius: 100px;
 			-webkit-border-radius: 100px;
-		}
-		
-			/*font-size: 120% !important;
-			font-weight: bold;
-			text-shadow: 1px 1px #F36C8C;
-			border: 1px solid #efbb4e;
-			cursor: pointer;
-			box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
-			-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
-			-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
-			*/
-			
+			//margin-bottom: 5px;
+			margin: 5px;
+		}			
 		.epbtn {
 			background-color: #cbff5e;
 		}
@@ -87,107 +84,118 @@
 		.vpbtn {
 			background-color: #5ecbff;
 		}
-		.cbtn {
+		#custom_game_div {
+			color: #808080;
+		}
+		.custom_game {
 			background-color: #eeeeee;
 			border: 2px solid #b5b5b5;
 			padding: 2px 5px 2px !important;
-			color: #333;
+			color: #606060;
 			border-radius: 10px;
 			-moz-border-radius: 10px;
 			-webkit-border-radius: 10px;
 		}
-		.gbtn {
-			font-size: 120% !important;
+		.game_btn {
+			font-size: 150% !important;
+			font-weight: bold;
 			background-color: #ffffff;
 			border: 0px;
-			padding: 2px 5px 0px !important;
-			color: #555;
+			margin-top: 5px;
+			margin-bottom: 0px;
+			//padding: 2px 5px 0px !important;
+			color: #A0A0A0
 		}
+		#play_exit {
+			float: left;
+		}
+		#play_restart {
+			float: right;
+		}
+		
 	</style>
 </head>
 <body>
-	<div id="menu">
+	<!--**** Menu Page ****-->
+	<div id="menu_page">
+		<!-- Title -->
 		<p></p>
-		<div id="sb_title"></div>   <!-- Title -->
+		<div id="sb_title"></div>
 		<script type="text/javascript">
+			//[ CDATA[
 			(function settitle(){
 				var colors=['#f70b0b','#20ef25','#575eff','#ffff00','#ea16f7','#06eaef','#ffcb5e','#51f8af','#bc79ff','#bc7933','#a91e50','#f9bfc8'];
 				var letters=['S','o','r','t','b','l','o','c','k','s'];
 				var text="";
-				for (var l=0; l<10; l++){
-					text+='<span style="color: '+colors[l]+';">'+letters[l]+'</span>';
+				for (let l=0; l<10; l++){
+					text+=`<span style="color: ${colors[l]};">${letters[l]}</span>`;
 				}
 				document.getElementById("sb_title").innerHTML=text;
 			})();
+			//]]
 		</script>
-		<p></p>
-		<div class="ma">Play</div><p></p>   <!-- Play -->
-		<input class="epbtn" id="pb1" type="button" onclick="play(1)"/>
-		<input class="epbtn" id="pb2" type="button" onclick="play(2)"/>
-		<input class="mpbtn" id="pb3" type="button" onclick="play(3)"/>
-		<input class="hpbtn" id="pb4" type="button" onclick="play(4)"/>
-		<input class="hpbtn" id="pb5" type="button" onclick="play(5)"/>
-		<p></p>
-		<a id="mltree" class="ma" href="javascript: void(0)" onclick="more_levels()">▶More levels</a><p></p>
-		<div id="more_levels_div">   <!-- More levels -->
-			<div class="borderDiv">
-				<span class="diff">Easy:</span>
-				<input class="epbtn" id="pb6" type="button" onclick="play(6)"/>
-				<input class="epbtn" id="pb7" type="button" onclick="play(7)"/>
-				<input class="epbtn" id="pb8" type="button" onclick="play(8)"/>
-				<input class="epbtn" id="pb9" type="button" onclick="play(9)"/>
-			</div>
-			<div class="borderDiv">
-				<span class="diff">Medium:</span>
-				<input class="mpbtn" id="pb10" type="button" onclick="play(10)"/>
-				<input class="mpbtn" id="pb11" type="button" onclick="play(11)"/>
-				<input class="mpbtn" id="pb12" type="button" onclick="play(12)"/>
-				<input class="mpbtn" id="pb13" type="button" onclick="play(13)"/>
-			</div>
-			<br/>
-			<span class="diff">Hard:</span>
-			<input class="hpbtn" id="pb14" type="button" onclick="play(14)"/>
-			<input class="hpbtn" id="pb15" type="button" onclick="play(15)"/>
-			<input class="hpbtn" id="pb16" type="button" onclick="play(16)"/>
-			<input class="hpbtn" id="pb17" type="button" onclick="play(17)"/>
-			<input class="hpbtn" id="pb18" type="button" onclick="play(18)"/>
-			<br/>
-			<span class="diff">Very hard:</span>
-			<input class="vpbtn" id="pb19" type="button" onclick="play(19)"/>
-			<input class="vpbtn" id="pb20" type="button" onclick="play(20)"/>
-			<input class="vpbtn" id="pb21" type="button" onclick="play(21)"/>
-			<input class="vpbtn" id="pb22" type="button" onclick="play(22)"/>
-		</div>
+
+		<!-- Info line -->
+		<div class="info_line spacing"><i>Connect all squares of the same colour together</i></div>
+
+		<!-- Levels -->
+		<div id="levels" class="spacing"></div>
 		<script type="text/javascript">
+			//[ CDATA[
 			(function setbuttons(){
+				let text="";
 				for (var i=1; i<=22; i++){
-					document.getElementById("pb"+i).value=i;
-					//document.getElementById("pb"+i).type="button";
-					document.getElementById("pb"+i).title="Play game "+i;
+					let diff_text;
+					switch (i) {
+						case 1:
+							text+="<div class='diff top_spacing'>Easy</div>";
+							break;
+						case 7:
+							text+="<div class='diff top_spacing'>Medium</div>";
+							break;
+						case 12:
+							text+="<div class='diff top_spacing'>Hard</div>";
+							break;
+						case 19:
+							text+="<div class='diff top_spacing'>Very hard</div>";
+							break;
+					}
+					let diff=get_preset_data(i)[0];
+					diff=["epbtn","mpbtn","hpbtn","vpbtn"][diff-1];
+					text+=`<input class="${diff}" id="pb${i}" type="button" value="${i}" title="Play game ${i}" onclick="game.play(${i})" />`;
 				}
+				document.getElementById("levels").innerHTML=text;	
 			})();
+			//]]
 		</script>
-		<p></p>
-		<a id="cgtree" class="ma" href="javascript: void(0)" onclick="custom_game()">▶Custom game</a><p></p>
-		<div id="custom_game_div">   <!-- Custom game -->
+		
+		<!-- Sound toggle -->
+		<div class="spacing">
+			<input type="checkbox" id="sound_toggle" name="sound_toggle" onclick="toggle_sound()" checked>
+			<label id="toggle_text" for="sound_toggle">Sound</label>
+		</div>
+		
+		<!-- Custom game -->
+		<a id="cgtree" class="main_menu spacing" href="javascript: void(0)" onclick="custom_game()">▶Custom game</a>
+		<div id="custom_game_div" class="spacing">
+			<div class="info_line spacing"><i>(Custom games may not have a solution)</i></div>
 			Size:
-			<select id="size_select" class="cbtn" >
-			</select>
+			<select id="size_select" class="custom_game" ></select>
 	        <script type="text/javascript">
 				(function setselect(){
 					var sizetext="";
 					for (var i=4; i<=22; i++){
-						sizetext+='<option value="'+i+'"';
+						sizetext+=`<option value="${i}"`;
 						if (i==5) 
 							sizetext+=' selected="selected"'; 
-						sizetext+='>'+i+'x'+i+'</option>\n';
+						sizetext+=`>${i}x${i}</option>\n`;
 					}
 					document.getElementById("size_select").innerHTML=sizetext;
 				})();
 	        </script>
 	        <br/>
 	        Number of colors:
-	        <select id="colors_select" class="cbtn">
+	        <select id="colors_select" class="custom_game">
 				<option value="1">1</option><option value="2">2</option>
 				<option value="3" selected="selected">3</option><option value="4">4</option>
 				<option value="5">5</option><option value="6">6</option>
@@ -196,43 +204,36 @@
 				<option value="11">11</option><option value="12">12</option>
 			</select>
 	        <br/>Spaces:
-	        <input id="white_input" class="cbtn" type="number" value="30" min="0" max="100"/>%
+	        <input id="white_input" class="custom_game" type="number" value="30" min="0" max="100"/>%
 	        <br/>Seed:
-	        <input id="seed_input" class="cbtn" type="number" value="1" min="1" max="10000"/>
-	        <input title="Set random seed" id="set_random_btn" class="cbtn" type="button" value="<-Random" onclick="random_seed()"/><br/>
+	        <input id="seed_input" class="custom_game" type="number" value="1" min="1" max="10000"/>
+	        <input title="Set random seed" id="set_random_btn" class="custom_game" type="button" value="←Random" onclick="game.random_seed()"/><br/>
 	        <script type="text/javascript">
 				document.getElementById("seed_input").value=Math.floor(Math.random()*10000)+1;
 			</script>
-			<input title="Play custom game" id="playbutton" class="cbtn" type="button" value="Play" onclick="play(0)" />
+			<input title="Play custom game" id="playbutton" class="custom_game" type="button" value="Play" onclick="game.play(0)" />
 		</div>
-		<br/>
-		<div style="font-size: 70%;"><!-- Social -->
+		
+		<!-- Social -->
+		<div style="font-size: 70%;" class="spacing">
 			<a href="http://twitter.com/share?url=https://stepdub.github.io/sortblocks/&text=SortBlocks puzzle game" target="_blank"><img src="tsbutton.png" alt="Twitter" /></a>
 			<a href="http://www.facebook.com/sharer.php?u=https://stepdub.github.io/sortblocks/" target="_blank"><img src="fbsbutton.png" alt="Facebook" /></a>
 		</div>
-		<p></p>
 	</div>
-	<div id="game">
-		<input title="Restart Level" id="play_restart" class="gbtn" type="button" value="Restart" onclick="game.reset()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input title="Back to Menu" id="play_exit" class="gbtn" type="button" value="Exit" onclick="play_exit()" /><br/>
-		<canvas id="canv" width="800" height="800"></canvas>
+	
+	<!--**** Game Page ****-->
+	<div id="game_page">
+		<div style="display:inline-block">
+			<input title="Back to Menu" id="play_exit" class="game_btn" type="button" value=" ← " onclick="game.game_end()" />
+			<input title="Restart Level" id="play_restart" class="game_btn" type="button" value=" ↺ " onclick="game.reset()" />
+			<br/>
+			<canvas id="canv" width="800" height="800"></canvas>
+		</div>
 	</div>
+	<!--*******************-->
 	<script type="text/javascript">
-		show_wins();
+		let game=new Game();
+		game.show_wins();
 	</script>
-	<!-- Start of StatCounter Code for Default Guide -->
-	<script type="text/javascript">
-		var sc_project=11202331; 
-		var sc_invisible=1; 
-		var sc_security="aa6d739a"; 
-		var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
-		document.write("<sc"+"ript type='text/javascript' src='" + scJsHost+ "statcounter.com/counter/counter.js'></"+"script>");
-	</script>
-	<noscript><div class="statcounter">
-		<a title="web analytics" href="http://statcounter.com/" target="_blank">
-			<img class="statcounter" src="//c.statcounter.com/11202331/0/aa6d739a/1/" alt="web analytics">
-		</a>
-	</div></noscript>
-	<!-- End of StatCounter Code for Default Guide -->
 </body>
 </html>
