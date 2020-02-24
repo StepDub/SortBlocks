@@ -74,7 +74,7 @@ class Game {
 			}
 		};
 		
-		this.canv.addEventListener('touchstart', function(e){
+		this.canv.addEventListener('touchstart', (e) => {
 			start_drag(e.targetTouches[0],this.getPosition(e.currentTarget));
 			e.preventDefault();
 		}, false);
@@ -98,22 +98,22 @@ class Game {
 			}
 		}
 			 
-		this.canv.addEventListener('touchmove', function(e){
+		this.canv.addEventListener('touchmove', (e) => {
 			drag(e.targetTouches[0],this.getPosition(e.currentTarget));
 			e.preventDefault();
 		}, false);
 	 
-		this.canv.addEventListener('touchend', function(e){
+		this.canv.addEventListener('touchend', (e) => {
 			this.draging=false;
 			e.preventDefault();
 		}, false);
 	
-		this.canv.addEventListener('touchleave', function(e){
+		this.canv.addEventListener('touchleave', (e) => {
 			this.draging=false;
 			e.preventDefault();
 		}, false);
 		
-		this.canv.addEventListener('touchcancel', function(e){
+		this.canv.addEventListener('touchcancel', (e) => {
 			this.draging=false;
 			e.preventDefault();
 		}, false);
