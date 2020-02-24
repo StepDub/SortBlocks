@@ -35,7 +35,7 @@ class Game {
 	constructor () {
 		this.canv = document.getElementById("canv");
 		this.ctx = this.canv.getContext("2d");
-		this.canv_offset=30;
+		this.border_width=14;
 	}
 	
 	play(preset){
@@ -59,8 +59,8 @@ class Game {
 		const minps= (x1,x2) => (x1<0)? Math.max(x1,-x2): Math.min(x1,x2); //minimum but preserve x1's sign
 		
 		let start_drag=(event,parentPosition)=>{
-			const xPos = event.clientX - parentPosition.x - this.canv_offset;
-			const yPos = event.clientY - parentPosition.y - this.canv_offset;
+			const xPos = event.clientX - parentPosition.x - this.border_width;
+			const yPos = event.clientY - parentPosition.y - this.border_width;
 			const mx=Math.floor(xPos/this.box_size);
 			const my=Math.floor(yPos/this.box_size);
 			const click_x=xPos-(mx*this.box_size+this.box_size/2);
@@ -81,8 +81,8 @@ class Game {
 			 
 		let drag=(event,parentPosition)=>{
 			if (this.draging){
-				const xPos = event.clientX - parentPosition.x - this.canv_offset;
-				const yPos = event.clientY - parentPosition.y - this.canv_offset;
+				const xPos = event.clientX - parentPosition.x - this.border_width;
+				const yPos = event.clientY - parentPosition.y - this.border_width;
 				const mx=Math.floor((xPos-this.click_x)/this.box_size);
 				const my=Math.floor((yPos-this.click_y)/this.box_size);
 				
@@ -146,18 +146,18 @@ class Game {
 	}
 	
 	init_canvas() {
-		const s=Math.min(window.innerWidth-60,window.innerHeight-116);
+		const s=Math.min(window.innerWidth-(this.border_width*2),window.innerHeight-116);
 		this.box_size=Math.max( Math.floor( Math.min(s/this.size,100) ),14 );
-		this.canv.width=this.size*this.box_size+this.canv_offset*2;
-		this.canv.height=this.size*this.box_size+this.canv_offset*2;
+		this.canv.width=this.size*this.box_size+this.border_width*2;
+		this.canv.height=this.size*this.box_size+this.border_width*2;
 		
 		this.ctx.translate(0,0);
 		this.ctx.beginPath();
-		this.ctx.strokeStyle="#e4e4e4";
-		this.ctx.lineWidth=15;
-		this.rounded_rect(this.ctx,15,15,this.canv.width-15,this.canv.height-15,25);
+		this.ctx.strokeStyle="#c0c0c0";
+		this.ctx.lineWidth=14;
+		this.rounded_rect(this.ctx,7,7,this.canv.width-7,this.canv.height-7,25);
 		this.ctx.stroke();
-		this.ctx.translate(this.canv_offset,this.canv_offset);
+		this.ctx.translate(this.border_width,this.border_width);
 	}
 	
 	game_end() {
