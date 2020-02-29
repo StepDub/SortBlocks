@@ -63,26 +63,34 @@
 			font-size: 200%;
 		}
 		.epbtn, .mpbtn, .hpbtn, .vpbtn {
-			padding: 2px 25px 2px !important;
+			padding: 2px 25px !important;
 			color: #333;
-			border-radius: 100px;
-			border: 0px;
-			-moz-border-radius: 100px;
-			-webkit-border-radius: 100px;
-			//margin-bottom: 5px;
+			//border-radius: 100px;
+			border-width: 2px;
+			border-style: solid;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
 			margin: 5px;
 		}			
 		.epbtn {
-			background-color: #cbff5e;
+			background-color: #d2ff75;
+			border-color: #4cc640;
+			color: #4cc640;
 		}
 		.mpbtn {
-			background-color: #ffcb5e;
+			background-color: #ffda8e;
+			border-color: #d69100;
+			color: #d69100;
 		}
 		.hpbtn {
-			background-color: #ff5ecb;
+			background-color: #ffa2e1;
+			border-color: #da0e99;
+			color: #da0e99;
 		}
 		.vpbtn {
-			background-color: #5ecbff;
+			background-color: #7ed5ff;
+			border-color: #2a99ce;
+			color: #2a99ce;
 		}
 		#custom_game_div {
 			color: #808080;
@@ -112,7 +120,17 @@
 		#play_restart {
 			float: right;
 		}
-		
+	    #next_level {
+	        position: absolute;
+	        top: 50%;
+	        left: 50%;
+	        transform: translate(-50%, -50%);
+	        background-color: rgb(0,0,0,0.5);
+	        padding: 3rem;
+	        border-radius: 1.5rem;
+	        //opacity: 1;
+	        //visibility: visible;
+	    }
 	</style>
 </head>
 <body>
@@ -123,15 +141,15 @@
 		<div id="sb_title"></div>
 		<script type="text/javascript">
 			//[ CDATA[
-			(function settitle(){
-				var colors=['#f70b0b','#20ef25','#575eff','#ffff00','#ea16f7','#06eaef','#ffcb5e','#51f8af','#bc79ff','#bc7933','#a91e50','#f9bfc8'];
-				var letters=['S','o','r','t','b','l','o','c','k','s'];
-				var text="";
+			{
+				let colors=['#f70b0b','#20ef25','#575eff','#ffff00','#ea16f7','#06eaef','#ffcb5e','#51f8af','#bc79ff','#bc7933','#a91e50','#f9bfc8'];
+				let letters=['S','o','r','t','b','l','o','c','k','s'];
+				let text="";
 				for (let l=0; l<10; l++){
 					text+=`<span style="color: ${colors[l]};">${letters[l]}</span>`;
 				}
 				document.getElementById("sb_title").innerHTML=text;
-			})();
+			};
 			//]]
 		</script>
 
@@ -142,21 +160,21 @@
 		<div id="levels" class="spacing"></div>
 		<script type="text/javascript">
 			//[ CDATA[
-			(function setbuttons(){
+			{
 				let text="";
-				for (var i=1; i<=22; i++){
+				for (let i=1; i<=23; i++){
 					let diff_text;
 					switch (i) {
 						case 1:
 							text+="<div class='diff top_spacing'>Easy</div>";
 							break;
-						case 7:
+						case 8:
 							text+="<div class='diff top_spacing'>Medium</div>";
 							break;
-						case 12:
+						case 13:
 							text+="<div class='diff top_spacing'>Hard</div>";
 							break;
-						case 19:
+						case 20:
 							text+="<div class='diff top_spacing'>Very hard</div>";
 							break;
 					}
@@ -165,7 +183,7 @@
 					text+=`<input class="${diff}" id="pb${i}" type="button" value="${i}" title="Play game ${i}" onclick="game.play(${i})" />`;
 				}
 				document.getElementById("levels").innerHTML=text;	
-			})();
+			};
 			//]]
 		</script>
 		
@@ -179,19 +197,22 @@
 		<a id="cgtree" class="main_menu spacing" href="javascript: void(0)" onclick="custom_game()">▶Custom game</a>
 		<div id="custom_game_div" class="spacing">
 			<div class="info_line spacing"><i>(Custom games may not have a solution)</i></div>
-			Size:
+			
+			<label for="size_select">Size:</label>
 			<select id="size_select" class="custom_game" ></select>
 	        <script type="text/javascript">
-				(function setselect(){
-					var sizetext="";
-					for (var i=4; i<=22; i++){
+				//[ CDATA[
+				{
+					let sizetext="";
+					for (let i=4; i<=22; i++){
 						sizetext+=`<option value="${i}"`;
 						if (i==5) 
 							sizetext+=' selected="selected"'; 
 						sizetext+=`>${i}x${i}</option>\n`;
 					}
 					document.getElementById("size_select").innerHTML=sizetext;
-				})();
+				};
+				//]]
 	        </script>
 	        <br/>
 	        Number of colors:
@@ -228,6 +249,10 @@
 			<input title="Restart Level" id="play_restart" class="game_btn" type="button" value=" ↺ " onclick="game.reset()" />
 			<br/>
 			<canvas id="canv" width="800" height="800"></canvas>
+			<div id="next_level">
+				<div style="font-size:600%">✔</div>
+				<input title="Play Next Level" id="next_btn" class="next_btn_class" type="button" value="Next Level→" onclick="game.next_level()" />
+			</div>
 		</div>
 	</div>
 	<!--*******************-->

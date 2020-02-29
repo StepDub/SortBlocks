@@ -142,11 +142,12 @@ class Game {
 		this.won=false;
 		this.randomize(this.seed);
 		this.draw_all();
+		document.getElementById("next_level").style.display="none";
 		this.check_win(0,0);
 	}
 	
 	init_canvas() {
-		const s=Math.min(window.innerWidth-(this.border_width*2),window.innerHeight-116);
+		const s=Math.min(window.innerWidth-(this.border_width*2),window.innerHeight-86);
 		this.box_size=Math.max( Math.floor( Math.min(s/this.size,100) ),14 );
 		this.canv.width=this.size*this.box_size+this.border_width*2;
 		this.canv.height=this.size*this.box_size+this.border_width*2;
@@ -377,20 +378,17 @@ class Game {
 			}
 		}
 		if (won){
-			const centre_x=this.sizex*this.box_size/2;
-			const centre_y=this.sizey*this.box_size/2;
-			this.ctx.beginPath();
-			this.ctx.fillStyle="rgba(0,0,0,0.4)";
-			this.rounded_rect(this.ctx,centre_x-100,centre_y-100,centre_x+100,centre_y+100,40);
-			//this.ctx.rect(x0,y0,this.box_size,this.box_size);
-			this.ctx.fill();
-			//
-			this.ctx.beginPath();
-			this.ctx.fillStyle="#20ff20";
-			this.ctx.font="200px sans-serif";
-			this.ctx.fillText("✔", centre_x-75, centre_y+75);
-			this.ctx.fill();
 			this.won=true;
+			if (this.preset !== 0)
+				document.getElementById("next_level").style.display="block";
+		}
+	}
+	
+	next_level() {
+		if (this.preset < 23) {
+			this.play(this.preset + 1);
+		}else{
+			this.game_end();
 		}
 	}
 	
@@ -450,10 +448,10 @@ class Game {
 	show_wins(){
 		for (let i=1; i<=22; i++){
 			if (this.get_won(i)){
-				document.getElementById("pb"+i).value=i;//+"✔";
-				document.getElementById("pb"+i).style.color="#00d000";
+				document.getElementById("pb"+i).value=i;//+"★";
+				document.getElementById("pb"+i).style.color="";
 			}else{
-				document.getElementById("pb"+i).value=i;
+				document.getElementById("pb"+i).style.color="black";
 			}
 		}
 	}
@@ -512,7 +510,8 @@ function get_preset_data(preset){
 	}else if (preset>=1){
 		let levels=[
 				//easy
-				[1,4,1,0.6,3], //1
+				[1,4,2,0.6,4903], //1
+				[1,4,3,0.5,3037],
 				[1,5,4,0.5,2], //2
 				[1,5,3,0.5,1], //3
 				[1,5,2,0.5,3], //4
