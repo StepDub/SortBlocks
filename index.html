@@ -99,8 +99,6 @@
 			padding: 2px 5px 2px !important;
 			color: #606060;
 			border-radius: 10px;
-			-moz-border-radius: 10px;
-			-webkit-border-radius: 10px;
 		}
 		.game_btn {
 			font-size: 150% !important;
@@ -109,20 +107,14 @@
 			border: 0px;
 			margin-top: 5px;
 			margin-bottom: 0px;
-			//padding: 2px 5px 0px !important;
 			color: #A0A0A0
 		}
 		.next_btn {
-			//font-size: 150% !important;
-			//font-weight: bold;
 			background-color: rgb(0,0,0,0.5);
 			border-radius: 20px;
 			border-width: 2px;
 			border-style: solid;
 			border-color: black;
-			//margin-top: 5px;
-			//margin-bottom: 0px;
-			//padding: 2px 5px 0px !important;
 			color: #A0A0A0
 		}
 		#play_exit {
@@ -137,12 +129,9 @@
 	        left: 50%;
 	        transform: translate(-50%, -50%);
 	        background-color: rgb(0,0,0,0.5);
-	        padding: 0 2rem;
+	        padding: 2px 2rem 5px;
 	        border-radius: 1.5rem;
-	        //display: hidden;
-	        //opacity: 1;
-	        //visibility: visible;
-	    }
+	        
 	</style>
 </head>
 <body>
@@ -262,7 +251,7 @@
 			<br/>
 			<canvas id="canv" width="800" height="800"></canvas>
 			<div id="next_level">
-				<div style="font-size:600%; color: #2FD035;">✔</div>
+				<div style="font-size:400%; color: #2FD035;">✔</div>
 				<input title="Play Next Level" class="next_btn" type="button" value="Next Level→" onclick="game.next_level()" />
 			</div>
 		</div>
